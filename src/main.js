@@ -8,6 +8,7 @@ const dbManager = require('./modules/dbManager')
 var mainWindow;
 var bookID;
 var dbCon;
+var sWin;
 dbManager.loadDB(`${__dirname}/db/library.db`, function(conn) {dbCon = conn});
 
 app.on('ready', () => {
@@ -64,7 +65,6 @@ app.on('ready', () => {
 })
 
 app.on('will-quit', () => {
-  //TODO: say renderer to save settings
   globalShortcut.unregisterAll();
 })
 app.on('window-all-closed', () => {
@@ -97,6 +97,10 @@ ipc.on('readerReady', (event, data) => {
   });
 });
 
+ipc.on('closeSettings', (event, data) => {
+  if (sWin) sWin.close();
+});
+
 function showLibrary() {
   if (!dbCon) setTimeout(showLibrary, 100);
   else {
@@ -117,11 +121,12 @@ function addFromClipboard() {
 }
 
 function showSettings() {
-  var sWin = new BrowserWindow({
-    height: 500,
-    width: 500,
-  //  frame: false
+  sWin = new BrowserWindow({
+    height: 200,
+    width: 300,
+    frame: false,
+    modal: true
   });
-  sWin.openDevTools();
+  //sWin.openDevTools();
   sWin.loadURL(`file://${__dirname}/modules/settings/settings.html`);
 }

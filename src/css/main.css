@@ -57,11 +57,8 @@
   color: #944135;
   margin: 5px;
 }
-.buttonRead:hover, .buttonRead:active, .buttonEdit:hover, .buttonEdit:active {
+.buttonRead:hover, .buttonRead:active, .buttonEdit:hover, .buttonEdit:active, .buttonDone:hover, .buttonDone:active {
   color: #DC3D24;
-}
-.options {
-  padding: 10%;
 }
 .speedInput {
   margin-left: 10px;

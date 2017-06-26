@@ -2,7 +2,7 @@
 const electron = require('electron')
 var tags = require('html-tag')
 const tManager = require('./modules/textManager')
-const options = require('./modules/settings').getOptions()
+const options = require('./modules/settingsManager').getOptions()
 const ipc = electron.ipcRenderer
 
 const textView = document.getElementById('textView')
