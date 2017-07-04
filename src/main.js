@@ -1,6 +1,6 @@
 'use strict'
 const electron = require('electron');
-const {app, Menu, BrowserWindow, ipcMain: ipc, globalShortcut, dialog} = electron;
+const {app, Menu, BrowserWindow, ipcMain: ipc, globalShortcut, dialog, clipboard} = electron;
 
 const fManager = require('./modules/fileManager')
 const tManager = require('./modules/textManager')
@@ -13,7 +13,7 @@ dbManager.loadDB(`${__dirname}/db/library.db`, function(conn) {dbCon = conn});
 
 app.on('ready', () => {
     mainWindow = new BrowserWindow({
-      height: 400,
+      height: 700,
       width: 800
     });
     const menuTemplate = [
@@ -28,10 +28,6 @@ app.on('ready', () => {
         click () { addFromClipboard() }
       },
       {
-        label: 'Read demo',
-        click () { readBook() }
-      },
-      {
         type: 'separator'
       },
       {
@@ -42,7 +38,14 @@ app.on('ready', () => {
     },
     {
       label: 'Settings',
-      click () { showSettings() }
+      submenu: [{
+        label: 'Change settings',
+        click () { showSettings() }
+      },
+      {
+        label: 'About settings',
+        click () { showAboutSettings() }
+      }]
     },
     {
       label: 'About',
@@ -56,11 +59,13 @@ app.on('ready', () => {
     mainWindow.openDevTools()
     mainWindow.on('closed', () => {
       mainWindow = null
-    })
+    });
 
-    //TODO: add shortcuts
-    globalShortcut.register('CommandOrControl+Y', () => {
-      // Do stuff when Y and either Command/Control is pressed.
+    globalShortcut.register('Up', () => {
+      mainWindow.webContents.send('changeSpeed', 1);
+    })
+    globalShortcut.register('Down', () => {
+      mainWindow.webContents.send('changeSpeed', 0);
     })
 })
 
@@ -83,6 +88,11 @@ ipc.on('readBook', (event, id) => {
 
 ipc.on('editedBook', (event, book) => {
   dbCon.updateProperties(book)
+});
+
+ipc.on('deletedBook', (event, bookId) => {
+  dbCon.delete(bookId);
+  showLibrary();
 })
 
 ipc.on('libReady', (event, data) => {
@@ -111,22 +121,40 @@ function showLibrary() {
 function addToLibrary() {
   var book;
   fManager.openFile( (filename, data) => {
-    book = tManager.parseBook(filename, data);
+    book = tManager.parseBook(data, filename);
     dbCon.add(book);
+    showLibrary();
   });
 }
 
 function addFromClipboard() {
-
+  var book = tManager.parseBook(clipboard.readText());
+  dbCon.add(book);
+  showLibrary();
 }
 
 function showSettings() {
   sWin = new BrowserWindow({
-    height: 1200,
-    width: 1300,
-    frame: false,
+    height: 200,
+    width: 300,
     modal: true
   });
-  sWin.openDevTools();
+  sWin.setMenu(null);
+  //sWin.openDevTools();
   sWin.loadURL(`file://${__dirname}/modules/settings/settings.html`);
+}
+
+function showAboutSettings() {
+  var mess = 'To change the theme you should go to the "change settings" section '
+              + 'and choose a theme. You can change the default speed there also. '
+              + 'To change current speed you can press arrows while reading or press '
+              + 'Up and Down buttons on your keyboard. To make new settings work, you '
+              + 'may need to close and run the application again.';
+  dialog.showMessageBox({message: mess, title: 'About settings', type: 'info'});
+}
+
+function showAbout() {
+  var mess = 'MIT License Copyright (c) 2017 Anastasiia Nikolaienko. '
+              + '\nSee more my projects on github: github.com/anastasiia-n';
+  dialog.showMessageBox({message: mess, title: 'About the application'});
 }

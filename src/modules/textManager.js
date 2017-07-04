@@ -2,12 +2,13 @@ var exports = module.exports = {};
 const TITLE_LEN = 10;
 const DESCRIPTION_LEN = 15;
 
-exports.parseBook = function(name, text) {
+exports.parseBook = function(text, name) {
   var book = new Object();
+  console.log(name);
   if (name) {
     book.name = parseName(name);
   } else {
-    name = text.substring(0, TITLE_LEN).trim().replace('\t', '');
+    book.name = text.substring(0, TITLE_LEN).trim().replace('\t', '');
   }
   book.description = text.substring(0, DESCRIPTION_LEN).trim().replace('\t', '');
   book.text = text;

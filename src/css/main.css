@@ -36,7 +36,7 @@
   float: left;
   margin: 10px;
 }
-.propLib {
+.propLib, .commLib {
   display: flex;
   justify-content: space-between;
 }
@@ -47,7 +47,7 @@
 .bookDescription {
   font-style: italic;
 }
-.buttonEdit {
+.buttonEdit, .buttonDelete {
   margin: 5px;
 }
 .speedInput {

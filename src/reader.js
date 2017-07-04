@@ -1,9 +1,12 @@
 'use strict'
+
 const electron = require('electron');
-var tags = require('html-tag');
-const tManager = require('./modules/textManager');
+const remote = electron.remote;
+const {dialog} = remote;
 const options = require('./modules/settingsManager').getOptions();
+var tags = require('html-tag');
 const themeManager = require('./modules/themeManager');
+
 const ipc = electron.ipcRenderer;
 
 const textView = document.getElementById('textView')
@@ -20,7 +23,7 @@ const debug = document.getElementById('debug')
 var bookArr = [];
 var bookID;
 var currIndex, lastIndex;
-var speed = options.speed;
+var speed = parseInt(options.speed, 10);
 var clock;
 
 bSlower.onclick = function() {
@@ -42,34 +45,28 @@ bResume.onclick = function() {
 }
 
 bExit.onclick = function() {
-  loadLibrary();
+  exit(0);
 }
 
-function loadLibrary() {
+function exit(exitFromAppFlag) {
   var saved = new Object();
   saved._id = bookID;
   saved.pointer = currIndex;
+  if (exitFromAppFlag == 1) return;
   ipc.send('showLibrary', saved);
 }
 
 function changeSpeed(value) {
-  speed += value; renderElements(false);
+  speed += value;
+  if (speed < 50) speed = 50;
+  else if (speed > 1000) speed = 1000;
+
+  renderElements(false);
   var opt = {
     speed: speed
   }
-  options.saveSettings(opt);
+  //options.saveSettings(opt);
 }
-
-ipc.on('readBook', (event, book) => {
-  bookID = book._id;
-  title.innerHTML = book.name;
-  var text = book.text.replace('\r', ' ').replace('\n', ' ')
-                      .replace('\t', ' ');
-  bookArr = text.split(/\s+/);
-  currIndex = book.pointer;
-  lastIndex = bookArr.length - 1;
-  showNextWord();
-})
 
 function showNextWord() {
     clock = setTimeout(function () {
@@ -82,8 +79,8 @@ function showNextWord() {
 
 function renderElements(firstTime) {
   if(firstTime) {
-    bPause.style.display = 'inline-block';
-    bResume.style.display = 'none';
+    bResume.style.display = 'inline-block';
+    bPause.style.display = 'none';
 
     themeManager.getCssLink( (link) => {
       document.head.appendChild(link);
@@ -103,6 +100,31 @@ function textToHtml(text) {
   return html;
 }
 
+ipc.on('readBook', (event, book) => {
+  bookID = book._id;
+  title.innerHTML = book.name;
+  var text = book.text.replace('\r', ' ').replace('\n', ' ')
+                      .replace('\t', ' ');
+  bookArr = text.split(/\s+/);
+  currIndex = book.pointer;
+  lastIndex = bookArr.length - 1;
+});
+
+ipc.on('changeSpeed', (event, flag) => {
+  if (flag === 1) changeSpeed(50);
+  else changeSpeed(-50);
+});
+
+remote.getCurrentWindow().onbeforeunload = function(event) {
+  dialog.showMessageBox({ type: 'question', message: 'Do you want to quit?', buttons: ['No', 'Yes']},
+  (response, cbC) => {
+    if (response === 0) {
+      event.preventDefault();
+    }
+  });
+  exit(1);
+  return false;
+}
 
 renderElements(true);
 ipc.send('readerReady');

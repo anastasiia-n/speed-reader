@@ -38,7 +38,6 @@ function getThemeName(val, cb) {
 }
 
 function save(opt) {
-  console.log('saved:' + opt.speed + ' and ' + opt.theme);
   if (opt.speed) {
     store.set('speed', opt.speed);
   }

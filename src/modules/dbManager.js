@@ -40,19 +40,19 @@ function addBook(book) {
 
 function updateBookPointer(book) {
   db.update({ _id: book._id }, { $set: {pointer: book.pointer} }, {}, function (err, numReplaced) {
-    console.log(numReplaced);
+    //console.log(numReplaced);
   });
 };
 
 function updateBookProperties(book) {
   if (book.name.trim() === '') return;
   db.update({ _id: book._id }, { $set: {name: book.name, description: book.description} }, {}, function (err, numReplaced) {
-    console.log(numReplaced);
+    //console.log(numReplaced);
   });
 };
 
 function deleteBook(id) {
   db.remove({ _id: id }, {}, function (err, numRemoved) {
-    console.log(numRemoved);
+    //console.log(numRemoved);
   });
 };
