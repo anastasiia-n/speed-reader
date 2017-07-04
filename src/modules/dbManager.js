@@ -38,9 +38,9 @@ function addBook(book) {
   db.insert(book);
 };
 
-function updateBookPointer(book) {
+function updateBookPointer(book, cb) {
   db.update({ _id: book._id }, { $set: {pointer: book.pointer} }, {}, function (err, numReplaced) {
-    //console.log(numReplaced);
+    if (typeof cb === "function") cb();
   });
 };
 

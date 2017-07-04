@@ -48,12 +48,11 @@ bExit.onclick = function() {
   exit(0);
 }
 
-function exit(exitFromAppFlag) {
+function exit() {
   var saved = new Object();
   saved._id = bookID;
   saved.pointer = currIndex;
-  if (exitFromAppFlag == 1) return;
-  ipc.send('showLibrary', saved);
+  ipc.send('saveAndExit', saved);
 }
 
 function changeSpeed(value) {
@@ -115,16 +114,9 @@ ipc.on('changeSpeed', (event, flag) => {
   else changeSpeed(-50);
 });
 
-remote.getCurrentWindow().onbeforeunload = function(event) {
-  dialog.showMessageBox({ type: 'question', message: 'Do you want to quit?', buttons: ['No', 'Yes']},
-  (response, cbC) => {
-    if (response === 0) {
-      event.preventDefault();
-    }
-  });
-  exit(1);
-  return false;
-}
+ipc.on('exit', () => {
+  exit();
+});
 
 renderElements(true);
 ipc.send('readerReady');

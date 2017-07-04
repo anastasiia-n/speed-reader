@@ -5,10 +5,11 @@ const {app, Menu, BrowserWindow, ipcMain: ipc, globalShortcut, dialog, clipboard
 const fManager = require('./modules/fileManager')
 const tManager = require('./modules/textManager')
 const dbManager = require('./modules/dbManager')
-var mainWindow;
-var bookID;
-var dbCon;
-var sWin;
+var mainWindow,
+    bookID,
+    dbCon,
+    sWin,
+    exitFromApp = false;
 dbManager.loadDB(`${__dirname}/db/library.db`, function(conn) {dbCon = conn});
 
 app.on('ready', () => {
@@ -56,17 +57,32 @@ app.on('ready', () => {
     mainWindow.loadURL(`file://${__dirname}/view/wait.html`);
     showLibrary();
 
-    mainWindow.openDevTools()
+    //mainWindow.openDevTools()
     mainWindow.on('closed', () => {
       mainWindow = null
     });
 
+    mainWindow.on('close', function(e){
+      if (!exitFromApp) {
+         var choice = require('electron').dialog.showMessageBox(this,
+            {
+              type: 'question',
+              buttons: ['Yes', 'No'],
+              title: 'Confirm',
+              message: 'Are you sure you want to quit?'
+         });
+         e.preventDefault();
+         if(choice == 0) exitFromApp = true;
+         mainWindow.webContents.send('exit');
+      }
+    });
+
     globalShortcut.register('Up', () => {
       mainWindow.webContents.send('changeSpeed', 1);
-    })
+    });
     globalShortcut.register('Down', () => {
       mainWindow.webContents.send('changeSpeed', 0);
-    })
+    });
 })
 
 app.on('will-quit', () => {
@@ -76,9 +92,11 @@ app.on('window-all-closed', () => {
   app.quit();
 })
 
-ipc.on('showLibrary', (event, saved) => {
-  dbCon.updatePointer(saved);
-  showLibrary();
+ipc.on('saveAndExit', (event, saved) => {
+  dbCon.updatePointer(saved, () => {
+    if (exitFromApp) mainWindow.close();
+    else showLibrary();
+  });
 })
 
 ipc.on('readBook', (event, id) => {
