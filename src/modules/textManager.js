@@ -1,18 +1,3 @@
-/*const fs = require('fs')
-var text = ''
-var words = []
-
-fs.readFile('./src/text.txt', function (err, data) {
-  if (err) console.log(err);
-  text = data + ''
-  words = text.split(' ')
-})
-
-module.exports = {
-  getBookAsArray: function (id) {
-    return words
-  }
-}*/
 var exports = module.exports = {};
 const TITLE_LEN = 10;
 const DESCRIPTION_LEN = 15;

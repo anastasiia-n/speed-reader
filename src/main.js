@@ -122,11 +122,11 @@ function addFromClipboard() {
 
 function showSettings() {
   sWin = new BrowserWindow({
-    height: 200,
-    width: 300,
+    height: 1200,
+    width: 1300,
     frame: false,
     modal: true
   });
-  //sWin.openDevTools();
+  sWin.openDevTools();
   sWin.loadURL(`file://${__dirname}/modules/settings/settings.html`);
 }

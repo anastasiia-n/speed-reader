@@ -1,4 +1,5 @@
 const options = require('../settingsManager').getOptions();
+const themeManager = require('../themeManager');
 const tags = require('html-tag');
 const electron = require('electron');
 const ipc = electron.ipcRenderer;
@@ -20,6 +21,9 @@ var br = '<br/>';
     if (theme.id === 'theme' + selected) theme.checked = true;
   });
 
+  themeManager.getCssLink( (link) => {
+    document.head.appendChild(link);
+  });
 })();
 
 buttonDone.onclick = function() {
@@ -45,7 +49,7 @@ function generateHtml() {
   var themes = options.getThemes();
   for(var name in themes) {
     var value = themes[name];
-    var themeIn = tags('input', {type: 'radio', class: 'theme', id: 'theme' + value});
+    var themeIn = tags('input', {type: 'radio', name: 'theme', class: 'theme', id: 'theme' + value});
     var themeLab = tags('label', name);
     html += themeIn + themeLab + br;
   }

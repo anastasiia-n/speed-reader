@@ -2,20 +2,21 @@
 const electron = require('electron')
 const {ipcRenderer: ipc} = electron;
 const tags = require('html-tag')
+const themeManager = require('./modules/themeManager');
 
 const content = document.getElementById('libContent');
 var buttonsRead = [];
 var buttonsEdit = [];
 var currTitle, currDescription, currEdit;
-var editingButton = '<i class="fa fa-pencil" aria-hidden="true"></i>';
-var editingDoneButton = '<i class="fa fa-check" aria-hidden="true"></i>'
+var editingButton = themeManager.getButtons().edit;
+var editingDoneButton = themeManager.getButtons().done;
 
 function generateLibrary(books) {
   var html = ''
   books.forEach( (book) => {
-    var read = tags('div', {class: 'buttonRead', id: 'read' + book._id}, '<i class="fa fa-book fa-2x" aria-hidden="true"></i>');
+    var read = tags('div', {class: 'buttonRead accent', id: 'read' + book._id}, '<i class="fa fa-book fa-2x" aria-hidden="true"></i>');
 
-    var edit = tags('div', {class: 'buttonEdit', id: 'edit' + book._id}, editingButton);
+    var edit = tags('div', {class: 'buttonEdit accent', id: 'edit' + book._id}, editingButton);
     var descr = tags('div', {class: 'bookDescription', id: 'bookDescription' + book._id}, book.description);
     var name = tags('h3', {class: 'bookTitle', id: 'bookTitle' + book._id}, book.name);
     var texts = tags('div', {class: 'textsLib'}, name + descr);
@@ -42,7 +43,9 @@ ipc.on('initLibrary', (event, data) => {
     };
   });
 
-
+  themeManager.getCssLink( (link) => {
+    document.head.appendChild(link);
+  });
 });
 
 function readBook(buttonId) {

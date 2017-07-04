@@ -1,9 +1,10 @@
 'use strict'
-const electron = require('electron')
-var tags = require('html-tag')
-const tManager = require('./modules/textManager')
-const options = require('./modules/settingsManager').getOptions()
-const ipc = electron.ipcRenderer
+const electron = require('electron');
+var tags = require('html-tag');
+const tManager = require('./modules/textManager');
+const options = require('./modules/settingsManager').getOptions();
+const themeManager = require('./modules/themeManager');
+const ipc = electron.ipcRenderer;
 
 const textView = document.getElementById('textView')
 const title = document.getElementById('title')
@@ -83,6 +84,10 @@ function renderElements(firstTime) {
   if(firstTime) {
     bPause.style.display = 'inline-block';
     bResume.style.display = 'none';
+
+    themeManager.getCssLink( (link) => {
+      document.head.appendChild(link);
+    });
   }
   speedView.innerHTML = speed;
 }

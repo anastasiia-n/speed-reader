@@ -16,7 +16,8 @@ var options = {
   speed: store.get('speed'),
   theme: store.get('theme'),
   saveSettings: save,
-  getThemes: function() { return THEMES; }
+  getThemes: function() { return THEMES; },
+  getThemeName: getThemeName
 }
 
 module.exports = {
@@ -25,6 +26,16 @@ module.exports = {
   }
 }
 
+function getThemeName(val, cb) {
+  for (var name in THEMES) {
+    var value = THEMES[name];
+    if (val == value) {
+      if (typeof cb === "function"){
+        cb(name);
+      }
+    }
+  }
+}
 
 function save(opt) {
   console.log('saved:' + opt.speed + ' and ' + opt.theme);
