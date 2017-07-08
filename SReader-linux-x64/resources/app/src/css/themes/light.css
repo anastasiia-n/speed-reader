@@ -1,0 +1,10 @@
+.main {
+  background-color: #FFFFFF;
+  color: #232B2B;
+}
+.accent {
+  color: #DC3D24;
+}
+.accent:hover, .accent:active {
+  color: #942b1b;
+}

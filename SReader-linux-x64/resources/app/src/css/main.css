@@ -1,0 +1,60 @@
+.main {
+  padding: 10% 20%;
+  margin: auto;
+  font-family: Gill Sans,Gill Sans MT,Calibri,sans-serif;
+}
+.controlElements {
+  margin: auto;
+  width: 500;
+  display: flex;
+  justify-content: space-between;
+}
+.controls {
+  display: inline-block;
+  float: left;
+  margin: 10px;
+}
+.textView {
+  clear: both;
+  white-space:nowrap;
+  text-align: center;
+  font-size: xx-large;
+  min-height: 70px;
+  line-height: 70px;
+}
+.speedElements {
+  margin: auto;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.title {
+  font-weight: initial;
+  margin-left: 10px;
+}
+.buttonRead {
+  float: left;
+  margin: 10px;
+}
+.propLib, .commLib {
+  display: flex;
+  justify-content: space-between;
+}
+.bookTitle {
+  margin: 0;
+  padding: 10px 0;
+}
+.bookDescription {
+  font-style: italic;
+}
+.buttonEdit, .buttonDelete {
+  margin: 5px;
+}
+.speedInput {
+  margin-left: 10px;
+  border-color: lightgrey;
+  border-collapse: collapse;
+  border-width: thin;
+  border-radius: 2px;
+  height: 150%;
+}
