@@ -1,0 +1,27 @@
+<div id="debug"></div>
+<h1 class="title">{{title}}</h1>
+<div class="controlElements">
+  <div *ngIf="running" class="controls" (click)="pause()">
+    <i class="fa fa-pause fa-2x" aria-hidden="true"></i>
+  </div>
+  <div *ngIf="!running" class="controls" (click)="play()">
+    <i class="fa fa-play fa-2x" aria-hidden="true"></i>
+  </div>
+  <div class="controls" (click)="exit()">
+    <i class="fa fa-times fa-2x" aria-hidden="true"></i>
+  </div>
+</div>
+<div id="textView" class="textView">
+  <span class="currentWord">{{currentWord.start}}</span>
+  <span class="currentWord center">{{currentWord.center}}</span>
+  <span class="currentWord">{{currentWord.end}}</span>
+</div>
+<div class="speedElements">
+  <div class="controls" (click)="changeSpeed(-50)">
+    <i class="fa fa-arrow-down fa-2x" aria-hidden="true"></i>
+  </div>
+  <div class="controls">{{speed}}</div>
+  <div class="controls" (click)="changeSpeed(50)">
+    <i class="fa fa-arrow-up fa-2x" aria-hidden="true"></i>
+  </div>
+</div>
