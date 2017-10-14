@@ -1,14 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FileSystemService } from 'app/providers/file-system.service';
 import { Book } from 'app/models/book.model';
 import { HighlightedWord } from "app/models/highlighted-word.model";
+import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   public title = `App works !`;
   public currentWord = new HighlightedWord();
   public prevWord = "";
@@ -19,17 +21,35 @@ export class HomeComponent implements OnInit {
   private lastIndex: number;
   private pointer = 0;
   private clock;
+  private subscription: Subscription;
 
-  constructor(public fileSystemService: FileSystemService) { }
+  constructor(
+    public fileSystemService: FileSystemService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) { }
 
   ngOnInit() {
+    this.subscription = this.activatedRoute.params.subscribe(
+      (param: any) => {
+        let serverID = param['id'];
+        console.log(serverID);
+    });
+
     // TODO: we will get it from db
     let book = this.fileSystemService.readFile();
     this.title = book.name;
     this.words = book.text.trim().split(/\s+/);
     this.lastIndex = this.words.length - 1;
-    console.log(this.words);
-    console.log(this.lastIndex);
+
+    this.currentWord = this.splitWord(this.words[0]);
+    if (this.lastIndex > 0) {
+      this.nextWord = this.words[1];
+    }
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   public pause() {
@@ -42,13 +62,13 @@ export class HomeComponent implements OnInit {
   public play() {
     if (!this.running) {
       this.running = true;
-      console.log("go!");
       this.getNextWord();
     }
   }
 
   public exit() {
-    //TODO: save and go to library
+    //TODO: save pointer
+
   }
 
   public changeSpeed(value: number) {

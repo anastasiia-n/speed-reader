@@ -15,11 +15,13 @@ import { ElectronService } from './providers/electron.service';
 import { FileSystemService } from 'app/providers/file-system.service';
 import { ParserService } from 'app/providers/parser.service';
 import { DatabaseService } from 'app/providers/database.service';
+import { LibraryComponent } from 'app/components/library/library.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    LibraryComponent
   ],
   imports: [
     BrowserModule,
