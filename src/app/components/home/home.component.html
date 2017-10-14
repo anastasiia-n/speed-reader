@@ -1,27 +1,42 @@
-<div id="debug"></div>
-<h1 class="title">{{title}}</h1>
-<div class="controlElements">
-  <div *ngIf="running" class="controls" (click)="pause()">
-    <i class="fa fa-pause fa-2x" aria-hidden="true"></i>
+<div class="container">
+  <div id="debug"></div>
+  <h1 class="title">{{title}}</h1>
+  <div class="row justify-content-center">
+    <div *ngIf="running" (click)="pause()"
+          class="col-2 text-center">
+      <i class="fa fa-pause fa-2x" aria-hidden="true"></i>
+    </div>
+    <div *ngIf="!running" (click)="play()"
+          class="col-2 text-center">
+      <i class="fa fa-play fa-2x" aria-hidden="true"></i>
+    </div>
+    <div (click)="exit()"
+          class="col-2 text-center">
+      <i class="fa fa-times fa-2x" aria-hidden="true"></i>
+    </div>
   </div>
-  <div *ngIf="!running" class="controls" (click)="play()">
-    <i class="fa fa-play fa-2x" aria-hidden="true"></i>
+  <div class="row textView">
+    <div class="col-12">
+        <div class="word left">
+          <span class="hidden-sm-down text-muted">{{prevWord}}</span>
+          {{currentWord.start}}
+        </div>
+        <div class="word accent">{{currentWord.center}}</div>
+        <div class="word right">
+          {{currentWord.end}}
+          <span class="hidden-sm-down text-muted">{{nextWord}}</span>
+        </div>
+    </div>
   </div>
-  <div class="controls" (click)="exit()">
-    <i class="fa fa-times fa-2x" aria-hidden="true"></i>
-  </div>
-</div>
-<div id="textView" class="textView">
-  <span class="currentWord">{{currentWord.start}}</span>
-  <span class="currentWord center">{{currentWord.center}}</span>
-  <span class="currentWord">{{currentWord.end}}</span>
-</div>
-<div class="speedElements">
-  <div class="controls" (click)="changeSpeed(-50)">
-    <i class="fa fa-arrow-down fa-2x" aria-hidden="true"></i>
-  </div>
-  <div class="controls">{{speed}}</div>
-  <div class="controls" (click)="changeSpeed(50)">
-    <i class="fa fa-arrow-up fa-2x" aria-hidden="true"></i>
+  <div class="row justify-content-center">
+    <div (click)="changeSpeed(-50)"
+          class="col-5 text-center">
+      <i class="fa fa-arrow-down fa-2x" aria-hidden="true"></i>
+    </div>
+    <div class="col-2 text-center">{{speed}}</div>
+    <div (click)="changeSpeed(50)"
+          class="col-5 text-center">
+      <i class="fa fa-arrow-up fa-2x" aria-hidden="true"></i>
+    </div>
   </div>
 </div>
