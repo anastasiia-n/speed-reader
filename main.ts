@@ -1,4 +1,4 @@
-import { app, Menu, BrowserWindow, screen } from 'electron';
+import { app, Menu, BrowserWindow, screen, dialog, shell } from 'electron';
 import * as path from 'path';
 
 let win, serve;
@@ -26,13 +26,30 @@ function createWindow() {
   // add menu
   let menuTemplate = [
     {
-      label: 'File'
+      label: 'File',
+      submenu: [{
+        label: 'Add from file',
+        click () { win.webContents.send('fromFile'); },
+        accelerator: 'Ctrl+O',
+      },
+      {
+        label: 'Add from clipboard',
+        click () { win.webContents.send('fromClip'); },
+        accelerator: 'Ctrl+V',
+      },
+      {
+        label: 'Quit',
+        role: 'close',
+        accelerator: 'CmdOrCtrl+Q',
+      }]
     },
     {
-      label: 'Settings'
+      label: 'Settings',
+      click () { win.webContents.send('showSettings'); },
     },
     {
-      label: 'About'
+      label: 'About',
+      click () { showAbout(); }
     }
   ];
   Menu.setApplicationMenu(Menu.buildFromTemplate(menuTemplate));
@@ -81,4 +98,13 @@ try {
 } catch (e) {
   // Catch Error
   // throw e;
+}
+
+function showAbout() {
+  const mess = 'MIT License Copyright (c) 2017 Anastasiia Nikolaienko. '
+      + '\nSee more my projects on github: github.com/anastasiia-n';
+  const buttons = ['OK', 'Go to github']
+  dialog.showMessageBox({ message: mess, title: 'About the application', buttons: buttons }, (selectedId) => {
+    if (selectedId === 1) shell.openExternal('https://github.com/anastasiia-n');
+  });
 }
