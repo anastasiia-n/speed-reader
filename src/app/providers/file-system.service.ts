@@ -31,4 +31,10 @@ export class FileSystemService {
             }
         );
     }
+
+    public readClipboard(): Book {
+        let text = this.electronService.clipboard.readText();
+        let resultBook = this.parserService.parseText(text);
+        return resultBook;
+    }
 }

@@ -20,7 +20,8 @@ export class LibraryComponent implements OnInit {
       });
     });
     electronService.ipcRenderer.on('fromClip', () => {
-      console.log("CLIP");
+      let book = fileSystemService.readClipboard();
+      console.log(book);
     });
   }
 
