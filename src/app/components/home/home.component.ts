@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
 
     // TODO: we will get it from db
-    let book = this.fileSystemService.readFile();
+    let book = this.fileSystemService.example();
     this.title = book.name;
     this.words = book.text.trim().split(/\s+/);
     this.lastIndex = this.words.length - 1;

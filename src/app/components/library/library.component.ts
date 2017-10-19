@@ -15,7 +15,12 @@ export class LibraryComponent implements OnInit {
     public router: Router
   ) { 
     electronService.ipcRenderer.on('fromFile', () => {
-      console.log("FILE");
+      fileSystemService.openFile((book) => {
+        console.log(book);
+      });
+    });
+    electronService.ipcRenderer.on('fromClip', () => {
+      console.log("CLIP");
     });
   }
 
