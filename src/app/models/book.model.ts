@@ -1,6 +1,7 @@
 export class Book {
-    public _id: number;
+    public _id: string;
     public name: string = "";
     public description: string = "";
     public text: string = "";
+    public pointer: number = 0;
 }
