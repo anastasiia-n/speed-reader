@@ -23,6 +23,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   private clock;
   private subscription: Subscription;
 
+  private readonly MIN_SPEED = 50;
+  private readonly MAX_SPEED = 2000;
+
   constructor(
     public fileSystemService: FileSystemService,
     private router: Router,
@@ -42,10 +45,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.words = book.text.trim().split(/\s+/);
     this.lastIndex = this.words.length - 1;
 
-    this.currentWord = this.splitWord(this.words[0]);
-    if (this.lastIndex > 0) {
-      this.nextWord = this.words[1];
-    }
+    this.getNextWordOnce();
   }
 
   ngOnDestroy() {
@@ -67,30 +67,57 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public exit() {
-    //TODO: save pointer
-
+    //TODO: save pointer, go to library
   }
 
   public changeSpeed(value: number) {
     this.speed += value;
-    if (this.speed < 50) this.speed = 50;
-    else if (this.speed > 2000) this.speed = 2000;
+    if (this.speed < this.MIN_SPEED) this.speed = this.MIN_SPEED;
+    else if (this.speed > this.MAX_SPEED) this.speed = this.MAX_SPEED;
+  }
+
+  public forward(value?: number) {
+    if (!value || this.pointer + value > this.lastIndex) {
+      this.pointer = this.lastIndex;
+    } else {
+      this.pointer += value;
+    }
+    this.getNextWordOnce();
+  }
+
+  public backward(value?: number) {
+    if (!value || this.pointer - value < 0) {
+      this.pointer = 0;
+    } else {
+      this.pointer -= value;
+    }
+    this.getNextWordOnce();
   }
   
   private getNextWord() {
     this.clock = setTimeout(() => {
       if(this.pointer <= this.lastIndex) {
-        if (this.pointer > 0) {
-          this.prevWord = this.words[this.pointer - 1];
-        }
-        if (this.pointer < this.lastIndex) {
-          this.nextWord = this.words[this.pointer + 1];
-        }
-        this.currentWord = this.splitWord(this.words[this.pointer++]);
-        console.log(this.currentWord);
+        this.getNextWordOnce();
         this.getNextWord();
       }
     }, this.getTimeout());
+  }
+
+  private getNextWordOnce() {
+    if(this.pointer <= this.lastIndex) {
+      if (this.pointer > 0) {
+        this.prevWord = this.words[this.pointer - 1];
+      } else {
+        this.prevWord = '';
+      }
+      if (this.pointer < this.lastIndex) {
+        this.nextWord = this.words[this.pointer + 1];
+      } else {
+        this.nextWord = '';
+      }
+      this.currentWord = this.splitWord(this.words[this.pointer++]);
+      console.log(this.currentWord);
+    }
   }
 
   private splitWord(word: string): HighlightedWord {

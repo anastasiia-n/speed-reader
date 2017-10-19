@@ -29,14 +29,34 @@
     </div>
   </div>
   <div class="row justify-content-center">
+    <div (click)="backward()"
+          class="col-1 text-center hidden-sm-down ">
+      <i class="fa fa-fast-backward fa-2x" aria-hidden="true"></i>
+    </div>
+    <div (click)="backward(10)"
+          class="col-1 text-center hidden-sm-down ">
+      <i class="fa fa-backward fa-2x" aria-hidden="true"></i>
+    </div>
     <div (click)="changeSpeed(-50)"
-          class="col-5 text-center">
+          class="col-3 text-center">
       <i class="fa fa-arrow-down fa-2x" aria-hidden="true"></i>
     </div>
-    <div class="col-2 text-center">Speed: {{speed}} w/m</div>
+    <div class="col-2 text-center">
+      <span class="hidden-sm-down">Speed:</span>
+      {{speed}} 
+      <span class="hidden-sm-down">w/m</span>
+    </div>
     <div (click)="changeSpeed(50)"
-          class="col-5 text-center">
+          class="col-3 text-center">
       <i class="fa fa-arrow-up fa-2x" aria-hidden="true"></i>
+    </div>
+    <div (click)="forward(10)"
+          class="col-1 text-center">
+     <i class="fa fa-forward fa-2x hidden-sm-down" aria-hidden="true"></i>
+    </div>
+    <div (click)="forward()"
+          class="col-1 text-center hidden-sm-down">
+      <i class="fa fa-fast-forward fa-2x" aria-hidden="true"></i>
     </div>
   </div>
 </div>
