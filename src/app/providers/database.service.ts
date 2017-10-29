@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Book } from 'app/models/book.model';
-import * as PouchDB from 'pouchdb';
+import PouchDB from 'pouchdb-browser';
 
 @Injectable()
 export class DatabaseService {
-    private db;
+    private db: PouchDB; 
 
     constructor() {
         this.db = new PouchDB('speed-reader-library.db',  {revs_limit: 1, auto_compaction: true});
@@ -17,9 +17,7 @@ export class DatabaseService {
             text: book.text,
             pointer: book.pointer
         }).then(function (response) {
-            if (response.ok) {
-                //TODO
-            }
+            console.log(response);
         }).catch(function (err) {
             console.log(err);
         });
@@ -36,24 +34,23 @@ export class DatabaseService {
                 pointer: book.pointer
             });
         }).then(function(response) {
-            // handle response
+            console.log(response);
         }).catch(function (err) {
             console.log(err);
         });
     }
 
-    public getAllBooks(callback: (books: Array<Book>) => any) {
+    public getAllBookNames(callback: (books: Array<Book>) => any) {
         this.db.allDocs({
             include_docs: true
         }).then(function (result) {
+            console.log('rows', result.rows);
             let books: Array<Book>;
-            books = result.rows.map(doc => {
+            books = result.rows.map(row => {
                 let book = new Book();
-                book._id = doc._id;
-                book.name = doc.name;
-                book.description = doc.description;
-                book.pointer = doc.pointer;
-                book.text = doc.text;
+                book._id = row.doc._id;
+                book.name = row.doc.name;
+                book.description = row.doc.description;
                 return book;
             });
             callback(books);
@@ -63,7 +60,7 @@ export class DatabaseService {
     }
 
     public getById(id: string, callback: (book: Book) => any) {
-        this.db.get(id).then(function (doc) {
+        this.db.get(id).then((doc) => {
             let book = new Book();
             book._id = doc._id;
             book.name = doc.name;

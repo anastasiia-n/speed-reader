@@ -18,7 +18,7 @@ export class FileSystemService {
         return b;
     }
 
-    public openFile(callback: (book: Book) => void) {
+    public readFile(callback: (book: Book) => void) {
         this.electronService.dialog.showOpenDialog(
             { filters: [{ name: 'text', extensions: ['txt'] }] },
             (fileNames) => {

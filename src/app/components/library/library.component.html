@@ -1,4 +1,9 @@
 <div class="container">
-  <div id="debug"></div>
-  <button (click)="read()">Read</button>
+  <ul class="reading-list">
+    <li class="reading-item" *ngFor="let item of bookList">
+      <div (click)="read(item._id)"><i class="fa fa-book fa-2x" aria-hidden="true"></i></div>
+      <h4>{{item.name}}</h4>
+      <p>{{item.description}}</p>
+    </li>
+  </ul>
 </div>

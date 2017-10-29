@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FileSystemService } from 'app/providers/file-system.service';
 import { ElectronService } from 'app/providers/electron.service';
+import { DatabaseService } from 'app/providers/database.service';
+import { Book } from 'app/models/book.model';
 
 @Component({
   selector: 'app-library',
@@ -9,27 +11,45 @@ import { ElectronService } from 'app/providers/electron.service';
   styleUrls: ['./library.component.scss']
 })
 export class LibraryComponent implements OnInit {
+  public bookList = new Array<Book>();
+
   constructor(
     public fileSystemService: FileSystemService,
     public electronService: ElectronService,
+    public databaseService: DatabaseService,
     public router: Router
   ) { 
     electronService.ipcRenderer.on('fromFile', () => {
-      fileSystemService.openFile((book) => {
-        console.log(book);
-      });
+      this.readFromFile();
     });
     electronService.ipcRenderer.on('fromClip', () => {
-      let book = fileSystemService.readClipboard();
-      console.log(book);
+      this.readFromClipboard();
     });
   }
 
   ngOnInit() {
-
+    this.databaseService.getAllBookNames((books) => {
+      this.bookList = books;
+      console.log(books);
+    });
   }
 
-  read() {
-    this.router.navigate(['/read/1']);
+  public read(id: string) {
+    this.router.navigate(['/read/' + id]);
+  }
+
+  private readFromFile() {
+    this.fileSystemService.readFile((book) => {
+      console.log('will add', book)
+      this.databaseService.addBook(book);
+      this.bookList.push(book);
+    });
+  }
+
+  private readFromClipboard() {
+    let book = this.fileSystemService.readClipboard();
+    console.log('clip', book);
+    this.databaseService.addBook(book);
+    this.bookList.push(book);
   }
 }

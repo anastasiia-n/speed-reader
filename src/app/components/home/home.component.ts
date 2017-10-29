@@ -4,6 +4,7 @@ import { Book } from 'app/models/book.model';
 import { HighlightedWord } from "app/models/highlighted-word.model";
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
+import { DatabaseService } from 'app/providers/database.service';
 
 @Component({
   selector: 'app-home',
@@ -28,6 +29,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(
     public fileSystemService: FileSystemService,
+    public databaseService: DatabaseService,
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) { }
@@ -36,16 +38,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.subscription = this.activatedRoute.params.subscribe(
       (param: any) => {
         let serverID = param['id'];
-        console.log(serverID);
+        this.databaseService.getById(serverID, (book) => {
+          this.title = book.name;
+          this.words = book.text.trim().split(/\s+/);
+          this.lastIndex = this.words.length - 1;
+          this.getNextWordOnce();
+        });
     });
-
-    // TODO: we will get it from db
-    let book = this.fileSystemService.example();
-    this.title = book.name;
-    this.words = book.text.trim().split(/\s+/);
-    this.lastIndex = this.words.length - 1;
-
-    this.getNextWordOnce();
   }
 
   ngOnDestroy() {
