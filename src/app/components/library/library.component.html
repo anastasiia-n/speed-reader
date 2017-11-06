@@ -1,9 +1,42 @@
 <div class="container">
   <ul class="reading-list">
-    <li class="reading-item" *ngFor="let item of bookList">
-      <div (click)="read(item._id)"><i class="fa fa-book fa-2x" aria-hidden="true"></i></div>
-      <h4>{{item.name}}</h4>
-      <p>{{item.description}}</p>
+    <li class="row" *ngFor="let item of bookList">
+      <div class="col-2 col-lg-1 text-center">
+        <a (click)="read(item._id)" class="btn-lib btn-read">
+          <i class="fa fa-book fa-3x" aria-hidden="true"></i>
+        </a>
+      </div>
+      <div class="col-6 col-lg-9">
+        <h4 *ngIf="editModeForItem != item._id" class="title">{{item.name}}</h4>
+        <p *ngIf="editModeForItem != item._id" class="text-muted">{{item.description}}</p>
+
+        <input *ngIf="editModeForItem == item._id" type="text" 
+              class="form-control" maxlength="25"
+              [(ngModel)]="item.name">
+        <textarea *ngIf="editModeForItem == item._id" type="text" 
+              class="form-control" maxlength="60"
+              [(ngModel)]="item.description"></textarea>
+      </div>
+      <div class="col-2 col-lg-1">
+        <a *ngIf="editModeForItem != item._id" 
+            (click)="edit(item._id)" class="btn-lib btn-edit">
+          <i class="fa fa-pencil fa-2x" aria-hidden="true"></i>
+        </a>
+        <a *ngIf="editModeForItem == item._id" 
+            (click)="edited(item)" class="btn-lib btn-edit">
+          <i class="fa fa-floppy-o fa-2x" aria-hidden="true"></i>
+        </a>
+      </div>
+      <div class="col-2 col-lg-1">
+        <a *ngIf="editModeForItem != item._id" 
+            (click)="delete(item._id)" class="btn-lib btn-remove">
+          <i class="fa fa-trash fa-2x" aria-hidden="true"></i>
+        </a>
+        <a *ngIf="editModeForItem == item._id" 
+            (click)="cancel()" class="btn-lib btn-cancel">
+          <i class="fa fa-ban fa-2x" aria-hidden="true"></i>
+        </a>     
+      </div>
     </li>
   </ul>
 </div>

@@ -24,8 +24,9 @@ export class DatabaseService {
     }
 
     public updateBook(book: Book) {
+        const self = this;
         this.db.get(book._id).then(function(doc) {
-            return this.db.put({
+            return self.db.put({
                 _id: book._id,
                 _rev: doc._rev,
                 name: book.name,

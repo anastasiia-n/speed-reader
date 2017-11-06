@@ -1,39 +1,58 @@
 .container {
   color: #232B2B;
+  padding: 16px 0;
+  margin: 10px auto;
+  
+  .reading-list {
 
-  .text-muted {
-    color: #dddddd !important;
+    li {
+      background-color: #f0f0f0;
+      padding-top: 15px;
+      margin-bottom: 10px;
+
+      .title {
+        padding-bottom:2px;
+        background:
+          linear-gradient(
+            to left, 
+            #f0f0f0 50%,
+            #636c72 100%
+          )
+          left 
+          bottom  
+          no-repeat; 
+        background-size:100% 2px ;
+      }  
+  
+      .btn-lib {
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+  
+      .btn-read {
+        color: #1bbc9b;
+      }
+  
+      .btn-edit {
+        padding: 13px 5px 5px 5px;
+        background-color: #3598dc;
+      }
+  
+      .btn-remove {
+        padding: 13px 5px 5px 5px;
+        background-color: #f97b86;
+      }
+
+      .btn-cancel {
+        padding: 13px 5px 5px 5px;
+        background-color: #525252;
+      }
+    }
   }
+}
 
-  .title {
-    color: black;
-    margin: 0;
-    padding: 50px 20px;
-  }
-
-  .textView {
-    font-size: xx-large;
-    min-height: 100px;
-    line-height: 100px;
-    margin: 10px 0;
-    background: #F3F5F6;
-
-    .word {
-      display: inline-block;
-      padding: 0;
-      margin: 0;
-    }
-    .left {
-      width: 50%;
-      text-align: right;
-    }
-    .right {
-      margin-left: -8px;
-    }
-    .accent {
-      margin-left: -8px;
-      color: #DC3D24;
-      text-decoration: underline;
-    }
-  }
+.form-control {
+  background-color: #f7f7f7;
+  margin-bottom: 5px;  
 }

@@ -12,6 +12,7 @@ import { Book } from 'app/models/book.model';
 })
 export class LibraryComponent implements OnInit {
   public bookList = new Array<Book>();
+  public editModeForItem = "";
 
   constructor(
     public fileSystemService: FileSystemService,
@@ -36,6 +37,23 @@ export class LibraryComponent implements OnInit {
 
   public read(id: string) {
     this.router.navigate(['/read/' + id]);
+  }
+
+  public edit(id: string) {
+    this.editModeForItem = id;
+  }
+
+  public edited(item: Book) {
+    this.editModeForItem = "";
+    this.databaseService.updateBook(item);
+  }
+
+  public cancel() {
+    this.editModeForItem = "";
+  }
+
+  public delete(id: string) {
+    
   }
 
   private readFromFile() {

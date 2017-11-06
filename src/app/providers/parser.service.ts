@@ -3,8 +3,8 @@ import { Book } from 'app/models/book.model';
 
 @Injectable()
 export class ParserService {
-    private readonly TITLE_LEN = 10;
-    private readonly DESCRIPTION_LEN = 25;
+    private readonly TITLE_LEN = 25;
+    private readonly DESCRIPTION_LEN = 60;
 
     parseText(text: string, path: string = ''): Book{
         let parsedBook = new Book();
