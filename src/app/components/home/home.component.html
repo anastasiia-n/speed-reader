@@ -3,15 +3,15 @@
   <h1 class="title">{{title}}</h1>
   <div class="row justify-content-center">
     <div *ngIf="running" (click)="pause()"
-          class="col-2 text-center">
+          class="col-2 text-center control">
       <i class="fa fa-pause fa-2x" aria-hidden="true"></i>
     </div>
     <div *ngIf="!running" (click)="play()"
-          class="col-2 text-center">
+          class="col-2 text-center control">
       <i class="fa fa-play fa-2x" aria-hidden="true"></i>
     </div>
     <div (click)="exit()"
-          class="col-2 text-center">
+          class="col-2 text-center control">
       <i class="fa fa-times fa-2x" aria-hidden="true"></i>
     </div>
   </div>
@@ -21,7 +21,10 @@
           <span class="hidden-sm-down text-muted">{{prevWord}}</span>
           {{currentWord.start}}
         </div>
-        <div class="word accent">{{currentWord.center}}</div>
+        <div class="word accent"
+          [ngClass]="{'left-padding': !currentWord.start, 'right-padding': !currentWord.end }">
+          {{currentWord.center}}
+        </div>
         <div class="word right">
           {{currentWord.end}}
           <span class="hidden-sm-down text-muted">{{nextWord}}</span>
@@ -30,15 +33,15 @@
   </div>
   <div class="row justify-content-center">
     <div (click)="backward()"
-          class="col-1 text-center hidden-sm-down ">
+          class="col-1 text-center hidden-sm-down control">
       <i class="fa fa-fast-backward fa-2x" aria-hidden="true"></i>
     </div>
     <div (click)="backward(10)"
-          class="col-1 text-center hidden-sm-down ">
+          class="col-1 text-center hidden-sm-down control">
       <i class="fa fa-backward fa-2x" aria-hidden="true"></i>
     </div>
     <div (click)="changeSpeed(-50)"
-          class="col-3 text-center">
+          class="col-3 text-center control">
       <i class="fa fa-arrow-down fa-2x" aria-hidden="true"></i>
     </div>
     <div class="col-2 text-center">
@@ -47,15 +50,15 @@
       <span class="hidden-sm-down">w/m</span>
     </div>
     <div (click)="changeSpeed(50)"
-          class="col-3 text-center">
+          class="col-3 text-center control">
       <i class="fa fa-arrow-up fa-2x" aria-hidden="true"></i>
     </div>
     <div (click)="forward(10)"
-          class="col-1 text-center">
+          class="col-1 text-center control">
      <i class="fa fa-forward fa-2x hidden-sm-down" aria-hidden="true"></i>
     </div>
     <div (click)="forward()"
-          class="col-1 text-center hidden-sm-down">
+          class="col-1 text-center hidden-sm-down control">
       <i class="fa fa-fast-forward fa-2x" aria-hidden="true"></i>
     </div>
   </div>

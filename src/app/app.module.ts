@@ -10,12 +10,15 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 
 import { AppRoutingModule } from './app-routing.module';
+import { HotkeyModule } from 'angular2-hotkeys';
 
 import { ElectronService } from './providers/electron.service';
 import { FileSystemService } from 'app/providers/file-system.service';
 import { ParserService } from 'app/providers/parser.service';
 import { DatabaseService } from 'app/providers/database.service';
 import { LibraryComponent } from 'app/components/library/library.component';
+import { ShortcutsService } from 'app/providers/shortcuts.service';
+import { LoggingService } from 'app/providers/logging.service';
 
 @NgModule({
   declarations: [
@@ -27,9 +30,10 @@ import { LibraryComponent } from 'app/components/library/library.component';
     BrowserModule,
     FormsModule,
     HttpModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HotkeyModule.forRoot()
   ],
-  providers: [ElectronService, FileSystemService, ParserService, DatabaseService],
+  providers: [ElectronService, FileSystemService, ParserService, DatabaseService, ShortcutsService, LoggingService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

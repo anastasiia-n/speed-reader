@@ -1,10 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FileSystemService } from 'app/providers/file-system.service';
 import { Book } from 'app/models/book.model';
 import { HighlightedWord } from "app/models/highlighted-word.model";
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { DatabaseService } from 'app/providers/database.service';
+import { ShortcutsService } from 'app/providers/shortcuts.service';
+import { UserCommand } from 'app/models/command.model';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +14,7 @@ import { DatabaseService } from 'app/providers/database.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  public title = `App works !`;
+  public title = "";
   public currentWord = new HighlightedWord();
   public prevWord = "";
   public nextWord = "";
@@ -22,7 +24,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   private lastIndex: number;
   private pointer = 0;
   private clock;
-  private subscription: Subscription;
+  private routeSubscription: Subscription;
+  private shortcutSubscription: Subscription;
+  private bookId: string;
 
   private readonly MIN_SPEED = 50;
   private readonly MAX_SPEED = 2000;
@@ -31,24 +35,34 @@ export class HomeComponent implements OnInit, OnDestroy {
     public fileSystemService: FileSystemService,
     public databaseService: DatabaseService,
     private router: Router,
+    public shortcutsService: ShortcutsService,
+    public changeDetectorRef: ChangeDetectorRef,
     private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    this.subscription = this.activatedRoute.params.subscribe(
+    this.routeSubscription = this.activatedRoute.params.subscribe(
       (param: any) => {
-        let serverID = param['id'];
-        this.databaseService.getById(serverID, (book) => {
+        this.bookId= param['id'];
+        this.databaseService.getById(this.bookId, (book) => {
           this.title = book.name;
           this.words = book.text.trim().split(/\s+/);
           this.lastIndex = this.words.length - 1;
+          this.pointer = book.pointer;
           this.getNextWordOnce();
+          this.changeDetectorRef.detectChanges();
         });
     });
+    this.shortcutSubscription = this.shortcutsService.listenToCommands()
+      .subscribe(result => {
+        this.executeCommand(result);
+        this.changeDetectorRef.detectChanges();
+      });
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.routeSubscription.unsubscribe();
+    this.shortcutSubscription.unsubscribe();
   }
 
   public pause() {
@@ -66,7 +80,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public exit() {
-    //TODO: save pointer, go to library
+    this.databaseService.updatePointerById(this.pointer, this.bookId, () => {
+      this.router.navigate(['/']);
+    });
   }
 
   public changeSpeed(value: number) {
@@ -134,5 +150,38 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private getTimeout() {
     return 60000/this.speed;
+  }
+
+  private executeCommand(command: UserCommand) {
+    switch(command) {
+      case UserCommand.up:
+        this.changeSpeed(50);
+        break;
+      case UserCommand.down:
+        this.changeSpeed(-50);
+        break;
+      case UserCommand.left:
+        this.backward(-10);
+        break;
+      case UserCommand.right:
+        this.forward(10);
+        break;
+      case UserCommand.home:
+        this.backward();
+        break;
+      case UserCommand.end:
+        this.forward();
+        break;
+      case UserCommand.space:
+        if (this.running) {
+          this.pause();
+        } else {
+          this.play();
+        }
+        break;
+      case UserCommand.esc:
+        this.exit();
+        break;
+    }
   }
 }

@@ -1,6 +1,7 @@
 <div class="container">
   <ul class="reading-list">
-    <li class="row" *ngFor="let item of bookList">
+    <li class="row" *ngFor="let item of bookList; let i = index" [attr.data-index]="i" 
+        [ngClass]="{'selected': (i == selectionIndex) }">
       <div class="col-2 col-lg-1 text-center">
         <a (click)="read(item._id)" class="btn-lib btn-read">
           <i class="fa fa-book fa-3x" aria-hidden="true"></i>

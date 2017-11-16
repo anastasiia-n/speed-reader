@@ -5,10 +5,26 @@
     color: #dddddd !important;
   }
 
+  .left-padding {
+    padding-left: 7px !important;
+  }
+
+  .right-padding {
+    padding-right: 7px !important;
+  }
+
   .title {
     color: black;
     margin: 0;
     padding: 50px 20px;
+  }
+  
+  .control {
+    cursor: pointer;
+    &:hover {
+      text-shadow: 2px 2px 2px #9e9e9e;
+     
+    }
   }
 
   .textView {

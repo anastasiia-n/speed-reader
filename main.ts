@@ -35,7 +35,7 @@ function createWindow() {
       {
         label: 'Add from clipboard',
         click () { win.webContents.send('fromClip'); },
-        accelerator: 'Ctrl+V',
+        accelerator: 'Ctrl+S',
       },
       {
         label: 'Quit',

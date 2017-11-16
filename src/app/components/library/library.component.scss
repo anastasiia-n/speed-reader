@@ -5,6 +5,10 @@
   
   .reading-list {
 
+    .selected {
+      background-color: #dddbdb;
+    }
+
     li {
       background-color: #f0f0f0;
       padding-top: 15px;
@@ -15,7 +19,7 @@
         background:
           linear-gradient(
             to left, 
-            #f0f0f0 50%,
+            #f7f7f7 50%,
             #636c72 100%
           )
           left 
@@ -32,21 +36,33 @@
   
       .btn-read {
         color: #1bbc9b;
+        &:hover {
+          color: #1b806a;
+        }
       }
   
       .btn-edit {
         padding: 13px 5px 5px 5px;
         background-color: #3598dc;
+        &:hover {
+          background-color: #236794;
+        }
       }
   
       .btn-remove {
         padding: 13px 5px 5px 5px;
         background-color: #f97b86;
+        &:hover {
+          background-color: #b95861;
+        }
       }
 
       .btn-cancel {
         padding: 13px 5px 5px 5px;
         background-color: #525252;
+        &:hover {
+          background-color: #2e2e2e;
+        }
       }
     }
   }
