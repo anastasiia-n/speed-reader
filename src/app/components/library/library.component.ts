@@ -37,9 +37,7 @@ export class LibraryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log('lib init');
-    
-    this.databaseService.getAllBookNames((books) => {
+    this.databaseService.getBookPreviews((books) => {
       this.bookList = books;
       console.log(books);
     });
@@ -51,14 +49,15 @@ export class LibraryComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log('lib destroy');
-    
     this.subscription.unsubscribe();
+  }
+
+  public getTheme(): string {
+    return 'default';
   }
 
   public read(id: string) {
     this.router.navigate(['/read/' + id]);
-    console.log('/read/' + id);
   }
 
   public edit(id: string) {

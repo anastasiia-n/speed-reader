@@ -64,7 +64,7 @@ export class DatabaseService {
         });
     }
 
-    public getAllBookNames(callback: (books: Array<Book>) => any) {
+    public getBookPreviews(callback: (books: Array<Book>) => any) {
         this.db.allDocs({
             include_docs: true
         }).then((result) => {
@@ -76,6 +76,7 @@ export class DatabaseService {
                 book.name = row.doc.name;
                 book.description = row.doc.description;
                 book.pointer = row.doc.pointer;
+                book.progress = row.doc.pointer / row.doc.text.split(' ').length;
                 return book;
             });
             callback(books);

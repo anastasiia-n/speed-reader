@@ -4,4 +4,5 @@ export class Book {
     public description: string = "";
     public text: string = "";
     public pointer: number = 0;
+    public progress: number = 0;
 }

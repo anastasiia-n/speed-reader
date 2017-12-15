@@ -9,11 +9,10 @@ import { ShortcutsService } from 'app/providers/shortcuts.service';
 import { UserCommand } from 'app/models/command.model';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  templateUrl: './reader.component.html',
+  styleUrls: ['./reader.component.scss']
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class ReaderComponent implements OnInit, OnDestroy {
   public title = "";
   public currentWord = new HighlightedWord();
   public prevWord = "";

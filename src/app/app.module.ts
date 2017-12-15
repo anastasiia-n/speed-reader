@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home/home.component';
+import { ReaderComponent } from './components/reader/reader.component';
 
 import { AppRoutingModule } from './app-routing.module';
 import { HotkeyModule } from 'angular2-hotkeys';
@@ -23,7 +23,7 @@ import { LoggingService } from 'app/providers/logging.service';
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
+    ReaderComponent,
     LibraryComponent
   ],
   imports: [
@@ -33,7 +33,14 @@ import { LoggingService } from 'app/providers/logging.service';
     AppRoutingModule,
     HotkeyModule.forRoot()
   ],
-  providers: [ElectronService, FileSystemService, ParserService, DatabaseService, ShortcutsService, LoggingService],
+  providers: [
+    ElectronService, 
+    FileSystemService, 
+    ParserService, 
+    DatabaseService, 
+    ShortcutsService, 
+    LoggingService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

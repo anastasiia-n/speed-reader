@@ -1,74 +1,118 @@
+@import "/../../../assets/styles/global/variables.scss";
+
+/* Shared styles */
 .container {
-  color: #232B2B;
-  padding: 16px 0;
-  margin: 10px auto;
-  
-  .reading-list {
+    li {
+        min-height: 60px;
+        margin: 10px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+
+        .text-description {
+            padding: 10px 10px 0;
+
+            .title {
+                cursor: pointer;
+            }
+        }
+
+        .dropdown {
+            background-color: lightgray;
+            position: relative;
+            display: inline-block;
+            text-align: center;
+            cursor: pointer;
+
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 1;
+                background-color: #f9f9f9;
+
+                a {
+                    text-decoration: none;
+                    display: block;
+                    padding: 10px;
+
+                    &:hover {
+                        background-color: $light-active;
+                    }
+                }
+            }
+
+            &:hover {
+                .dropdown-content {
+                    display: block;
+                }
+            }
+
+            i {
+                margin-top: 40%;
+            }
+        }
+
+        .editing {
+            display: block;
+            height: 100%;
+        }
+
+        .btn-edit {
+            width: 100%;
+            height: 50%;
+            background-color: #f9f9f9;
+            border: none;
+            cursor: pointer;
+            color: gray;
+
+            i {
+                margin-top: 0;
+            }
+
+            &:hover {
+                background-color: $light-active;
+            }
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: gray;
+        }
+    }
 
     .selected {
-      background-color: #dddbdb;
+        background-color: $light-active;
     }
-
-    li {
-      background-color: #f0f0f0;
-      padding-top: 15px;
-      margin-bottom: 10px;
-
-      .title {
-        padding-bottom:2px;
-        background:
-          linear-gradient(
-            to left, 
-            #f7f7f7 50%,
-            #636c72 100%
-          )
-          left 
-          bottom  
-          no-repeat; 
-        background-size:100% 2px ;
-      }  
-  
-      .btn-lib {
-        color: white;
-        border-radius: 5px;
-        cursor: pointer;
-      }
-  
-      .btn-read {
-        color: #1bbc9b;
-        &:hover {
-          color: #1b806a;
-        }
-      }
-  
-      .btn-edit {
-        padding: 13px 5px 5px 5px;
-        background-color: #3598dc;
-        &:hover {
-          background-color: #236794;
-        }
-      }
-  
-      .btn-remove {
-        padding: 13px 5px 5px 5px;
-        background-color: #f97b86;
-        &:hover {
-          background-color: #b95861;
-        }
-      }
-
-      .btn-cancel {
-        padding: 13px 5px 5px 5px;
-        background-color: #525252;
-        &:hover {
-          background-color: #2e2e2e;
-        }
-      }
-    }
-  }
 }
 
-.form-control {
-  background-color: #f7f7f7;
-  margin-bottom: 5px;  
+/* Default theme styles */
+.default {
+    li {
+        &:hover {
+            color: $light-active;
+        }
+    }
+}
+
+/* Override bootstrap settings */
+.col {
+    padding: 0;
+}
+
+.col-1 {
+    padding: 0;
+}
+
+.col-2 {
+    padding: 0;
+}
+
+.col-11 {
+    padding: 0;
+}
+
+.col-12 {
+    padding: 0;
 }
