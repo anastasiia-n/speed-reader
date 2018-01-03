@@ -1,7 +1,8 @@
 import { ReaderComponent } from './components/reader/reader.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LibraryComponent } from 'app/components/library/library.component';
+import { LibraryComponent } from 'app/components/home/library/library.component';
+import { HomeComponent } from 'app/components/home/home.component';
 
 const routes: Routes = [
     {
@@ -10,7 +11,7 @@ const routes: Routes = [
     },
     {
         path: '',
-        component: LibraryComponent
+        component: HomeComponent
     }
 ];
 

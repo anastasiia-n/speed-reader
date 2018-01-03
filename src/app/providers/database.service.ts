@@ -2,11 +2,22 @@ import { Injectable } from '@angular/core';
 import { Book } from 'app/models/book.model';
 import PouchDB from 'pouchdb-browser';
 import { LoggingService } from 'app/providers/logging.service';
+import { Settings } from 'app/models/settings.model';
+import { User } from 'app/models/user.model';
 
 @Injectable()
 export class DatabaseService {
+    public books;
+    public settings;
+    constructor(private loggingService: LoggingService) {
+        this.books = new BooksDb(this.loggingService);
+        this.settings = new SettingsDb(this.loggingService);
+    }
+}
+
+class BooksDb {
     private db: PouchDB; 
-    private readonly logSource = 'DatabaseService.';
+    private readonly logSource = 'DatabaseService.BooksDb.';
 
     constructor(
         private loggingService: LoggingService
@@ -14,7 +25,7 @@ export class DatabaseService {
         this.db = new PouchDB('speed-reader-library.db',  {revs_limit: 1, auto_compaction: true});
     }
 
-    public addBook(book: Book, callback: (id: string) => any) {
+    public add(book: Book, callback: (id: string) => any) {
         this.db.post({
             name: book.name,
             description: book.description,
@@ -23,11 +34,11 @@ export class DatabaseService {
         }).then(response => {
             callback(response.id);
         }).catch(err => {
-            this.loggingService.logError(this.logSource + 'addBook', err);
+            this.loggingService.logError(this.logSource + 'add', err);
         });
     }
 
-    public updateBook(book: Book) {
+    public update(book: Book) {
         this.db.get(book._id).then((doc) => {
             this.db.put({
                 _id: book._id,
@@ -38,7 +49,7 @@ export class DatabaseService {
                 pointer: book.pointer
             });
         }).catch((err) => {
-            this.loggingService.logError(this.logSource + 'updateBook', err);
+            this.loggingService.logError(this.logSource + 'update', err);
         });
     }
 
@@ -64,7 +75,7 @@ export class DatabaseService {
         });
     }
 
-    public getBookPreviews(callback: (books: Array<Book>) => any) {
+    public getPreviews(callback: (books: Array<Book>) => any) {
         this.db.allDocs({
             include_docs: true
         }).then((result) => {
@@ -76,19 +87,18 @@ export class DatabaseService {
                 book.name = row.doc.name;
                 book.description = row.doc.description;
                 book.pointer = row.doc.pointer;
-                book.progress = row.doc.pointer / row.doc.text.split(' ').length;
+                book.length = row.doc.text.split(' ').length;
                 return book;
             });
             callback(books);
         }).catch((err) => {
-            this.loggingService.logError(this.logSource + 'getAllBookNames', err);
+            this.loggingService.logError(this.logSource + 'getPreviews', err);
             callback(null);
         });
     }
 
     public getById(id: string, callback: (book: Book) => any) {
         this.db.get(id).then((doc) => {
-            console.log(doc);
             let book = new Book();
             book._id = doc._id;
             book.name = doc.name;
@@ -110,3 +120,58 @@ export class DatabaseService {
         });
     }
 }
+
+class SettingsDb {
+    private db: PouchDB; 
+    private readonly logSource = 'DatabaseService.SettingsDb.';
+
+    constructor(
+        private loggingService: LoggingService
+    ) {
+        this.db = new PouchDB('speed-reader-settings.db',  {revs_limit: 1, auto_compaction: true});
+        /*
+            user_id | Settings
+        */
+    }
+
+    public saveSettings(settings: Settings, user: User = null) {
+        // find by user id
+        // if no entries OR user is null - save as local [user_id = 0]
+        // if there is an entry - update values
+
+        /*
+        this.db.get(book._id).then((doc) => {
+            this.db.put({
+                _id: book._id,
+                _rev: doc._rev,
+                name: book.name,
+                description: book.description,
+                text: book.text,
+                pointer: book.pointer
+            });
+        }).catch((err) => {
+            this.loggingService.logError(this.logSource + 'updateBook', err);
+        });*/
+    }
+
+    public getSettings(user: User = null) {
+        // find by user id
+        // if user is null - get local [user_id = 0]
+
+        /*
+        this.db.get(id).then((doc) => {
+            let book = new Book();
+            book._id = doc._id;
+            book.name = doc.name;
+            book.description = doc.description;
+            book.pointer = doc.pointer;
+            book.text = doc.text;
+            callback(book);
+        }).catch((err)=> {
+            this.loggingService.logError(this.logSource + 'getById', err);
+            callback(null);
+        });*/
+    }
+}
+
+

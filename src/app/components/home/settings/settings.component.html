@@ -1,0 +1,54 @@
+<div class="row">
+    <div class="col-5">
+        <label for="theme" class="col-form-label">Theme:</label>
+        <div class="col">
+            <select [(ngModel)]="settings.theme" id="theme">
+                <option *ngFor="let theme of themes" [value]="theme">
+                    {{theme}}
+                </option>
+            </select>
+        </div>
+    </div>
+    <div class="col-7 hidden-xs-down" [ngClass]="settings.theme">
+        <div class="row colors">
+            <div class="col-4 color color-1"></div>
+            <div class="col-4 color color-2"></div>
+            <div class="col-4 color color-3"></div>
+            <div class="col-4 color color-4"></div>
+            <div class="col-4 color color-5"></div>
+            <div class="col-4 color color-6"></div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <label for="speed" class="col-form-label">Speed:</label>
+        <div class="col">
+            <input [(ngModel)]="settings.speed" type="number" id="speed"
+                [attr.min]="getMinSpeed()" [attr.max]="getMaxSpeed()">
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <button type="button" class="btn clear" (click)="open(confirmModal)">Clear All Data</button>
+    </div>
+</div>
+
+<ng-template #confirmModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Are you sure?</h4>
+        <button type="button" class="close" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p>Do you really want to clear all data? This action cannot be undone.</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn" (click)="c('Close click')">Yes</button>
+        <button type="button" class="btn" (click)="c('Close click')">No</button>
+    </div>
+</ng-template>
+    

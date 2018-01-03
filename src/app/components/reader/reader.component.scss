@@ -1,11 +1,9 @@
  @import "/../../../assets/styles/global/variables.scss";
 
+/* Shared styles */
 .container {
-  color: #232B2B;
-
-  .text-muted {
-    color: #dddddd !important;
-  }
+  width: 100% !important;
+  height: 100% !important;
 
   .left-padding {
     padding-left: 7px !important;
@@ -16,17 +14,12 @@
   }
 
   .title {
-    color: black;
     margin: 0;
     padding: 50px 20px;
   }
   
   .control {
     cursor: pointer;
-    &:hover {
-      text-shadow: 2px 2px 2px #9e9e9e;
-     
-    }
   }
 
   .textView {
@@ -34,7 +27,6 @@
     min-height: 100px;
     line-height: 100px;
     margin: 10px 0;
-    background: #F3F5F6;
 
     .word {
       display: inline-block;
@@ -50,8 +42,52 @@
     }
     .accent {
       margin-left: -8px;
-      color: #DC3D24;
       text-decoration: underline;
+    }
+  }
+}
+
+/* Default theme styles */
+.default {
+  color: $default_text-primary;
+
+  .text-muted {
+    color: $default_text-secondary !important;
+  }
+  
+  .control {
+    &:hover {
+      text-shadow: 2px 2px 2px $default_text-shadow;
+    }
+  }
+
+  .textView {
+    background: $default_back-secondary;
+    box-shadow: 0 1px 3px $default_back-shadow, 0 1px 2px $default_back-shadow;
+    color: black;
+    .accent {
+      color: $default_accent-primary;
+    }
+  }
+}
+
+/* Dark theme styles */
+.dark {
+  color: $dark_text-secondary;
+  background-color: $dark_back-primary;
+  
+  .control {
+    &:hover {
+      text-shadow: 2px 2px 2px $dark_text-shadow;
+    }
+  }
+
+  .textView {
+    background: $dark_back-secondary;
+    box-shadow: 0 1px 3px $dark_back-shadow, 0 1px 2px $dark_back-shadow;
+    color: $dark_text-primary;
+    .accent {
+      color: $dark_accent-primary;
     }
   }
 }

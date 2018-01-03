@@ -1,6 +1,6 @@
-<div class="container">
+<div class="container"  [ngClass]="getTheme()">
   <ul class="reading-list">
-    <li class="row" *ngFor="let item of bookList; let i = index" [attr.data-index]="i" [ngClass]="{'selected': (i == selectionIndex) }">
+    <li class="row" *ngFor="let item of bookList; let i = index" [attr.data-index]="i" [ngClass]="{'selected': (i == selector.selectionIndex) }">
       <div class="col-11">
         <div *ngIf="editModeForItem != item._id" class="text-description">
             <h4 (click)="read(item._id)" class="title">{{item.name}}</h4>
@@ -12,13 +12,15 @@
         </div>
         <div class="progress-bar" role="progressbar" 
             [attr.aria-valuenow]="item.progress" aria-valuemin="0" aria-valuemax="100" 
-            [style.width]="item.progress*100 + '%'">
+            [style.width]="item.progress+ '%'">
         </div>
       </div>
 
       <div class="col-1 dropdown">
+        <div *ngIf="editModeForItem != item._id" class="menu-icon">
+            <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
+        </div>
         <div *ngIf="editModeForItem != item._id">
-          <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
           <div class="dropdown-content">
             <button (click)="edit(item._id)" 
               class="btn-lib btn-edit">

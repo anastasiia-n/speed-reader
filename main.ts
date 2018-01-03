@@ -45,7 +45,14 @@ function createWindow() {
     },
     {
       label: 'Settings',
-      click () { win.webContents.send('showSettings'); },
+      submenu: [{
+        label: 'Personalize',
+        click () { win.webContents.send('settingsPersonalize'); }
+      },
+      {
+        label: 'Sync...',
+        click () { win.webContents.send('settingsSync'); }
+      }]
     },
     {
       label: 'About',

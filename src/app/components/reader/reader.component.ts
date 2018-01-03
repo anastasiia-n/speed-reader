@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { DatabaseService } from 'app/providers/database.service';
 import { ShortcutsService } from 'app/providers/shortcuts.service';
 import { UserCommand } from 'app/models/command.model';
+import { Themes } from 'app/models/settings.model';
 
 @Component({
   templateUrl: './reader.component.html',
@@ -43,7 +44,7 @@ export class ReaderComponent implements OnInit, OnDestroy {
     this.routeSubscription = this.activatedRoute.params.subscribe(
       (param: any) => {
         this.bookId= param['id'];
-        this.databaseService.getById(this.bookId, (book) => {
+        this.databaseService.books.getById(this.bookId, (book) => {
           this.title = book.name;
           this.words = book.text.trim().split(/\s+/);
           this.lastIndex = this.words.length - 1;
@@ -62,6 +63,7 @@ export class ReaderComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.routeSubscription.unsubscribe();
     this.shortcutSubscription.unsubscribe();
+    this.pause();
   }
 
   public pause() {
@@ -79,7 +81,7 @@ export class ReaderComponent implements OnInit, OnDestroy {
   }
 
   public exit() {
-    this.databaseService.updatePointerById(this.pointer, this.bookId, () => {
+    this.databaseService.books.updatePointerById(this.pointer, this.bookId, () => {
       this.router.navigate(['/']);
     });
   }
@@ -182,5 +184,9 @@ export class ReaderComponent implements OnInit, OnDestroy {
         this.exit();
         break;
     }
+  }
+  
+  public getTheme() {
+    return Themes.dark;
   }
 }

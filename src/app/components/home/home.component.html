@@ -1,0 +1,19 @@
+<app-library [newBook]="newBook"></app-library>
+
+<ng-template #settingsModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Settings</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <app-settings></app-settings>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Apply</button>
+        <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Cancel</button>
+    </div>
+</ng-template>
+
+      

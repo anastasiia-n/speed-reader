@@ -11,27 +11,33 @@ import { ReaderComponent } from './components/reader/reader.component';
 
 import { AppRoutingModule } from './app-routing.module';
 import { HotkeyModule } from 'angular2-hotkeys';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ElectronService } from './providers/electron.service';
 import { FileSystemService } from 'app/providers/file-system.service';
 import { ParserService } from 'app/providers/parser.service';
 import { DatabaseService } from 'app/providers/database.service';
-import { LibraryComponent } from 'app/components/library/library.component';
+import { LibraryComponent } from 'app/components/home/library/library.component';
 import { ShortcutsService } from 'app/providers/shortcuts.service';
 import { LoggingService } from 'app/providers/logging.service';
+import { HomeComponent } from 'app/components/home/home.component';
+import { SettingsComponent } from 'app/components/home/settings/settings.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    HomeComponent,
     ReaderComponent,
-    LibraryComponent
+    LibraryComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     AppRoutingModule,
-    HotkeyModule.forRoot()
+    HotkeyModule.forRoot(),
+    NgbModule.forRoot()
   ],
   providers: [
     ElectronService, 

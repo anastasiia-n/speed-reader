@@ -10,14 +10,6 @@ export class FileSystemService {
         public parserService: ParserService
     ) { }
 
-    public example(): Book {
-        let b = new Book();
-        b.name = "Lorem";
-        b.description = "Ipsum";
-        b.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut molestie neque quis nibh facilisis, a dictum eros rhoncus. Pellentesque felis purus, mollis vel elit vitae, iaculis cursus nisl. Maecenas fermentum, metus in volutpat convallis, tortor lectus pulvinar metus, vitae cursus magna enim vel risus. ";
-        return b;
-    }
-
     public readFile(callback: (book: Book) => void) {
         this.electronService.dialog.showOpenDialog(
             { filters: [{ name: 'text', extensions: ['txt'] }] },

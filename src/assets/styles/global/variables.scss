@@ -1,1 +1,26 @@
-$light-active: #ececf6;
+$default_text-primary: #444444;
+$default_text-secondary: #b2b2bc;
+$default_back-primary: #ffffff;
+$default_back-secondary: #eeeeee;
+$default_accent-primary: #DD4942;
+$default_accent-secondary: #f0e2d1;
+$default_main: #9ba9bb;
+$default_text-shadow: #898e90;
+$default_back-shadow: rgba(0, 0, 0, 0.14);
+
+$dark_text-primary: #ffffff;
+$dark_text-secondary: #dbdbdb;
+$dark_back-primary: #121419;
+$dark_back-secondary: #252c39;
+$dark_accent-primary: #FFA812;
+$dark_accent-secondary: rgb(75, 72, 71);
+$dark_main: #617E8E;
+$dark_text-shadow: #898e90;
+$dark_back-shadow: rgba(0, 0, 0, 0.14);
+
+
+@mixin vertical-align($position: relative) {
+    position: $position;
+    top: 50%;
+    transform: translateY(-50%);
+}

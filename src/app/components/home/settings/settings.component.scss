@@ -1,0 +1,64 @@
+@import "/../../../../assets/styles/global/variables.scss";
+
+select, input {
+    padding: 5px 10px;
+    box-shadow: none;
+    width: 150px;
+    &:focus {
+        outline: none;
+    }
+}
+
+.clear {
+    margin-top: 20px;
+}
+
+.colors {
+    margin: 5px;
+    .color {
+        height: 35px;
+    }  
+}
+
+
+.default {
+    .color-1 {
+        background-color: $default_text-primary;
+    }
+    .color-2 {
+        background-color: $default_text-secondary;
+    }
+    .color-3 {
+        background-color: $default_back-secondary;
+    }
+    .color-4 {
+        background-color: $default_accent-primary;
+    }
+    .color-5 {
+        background-color: $default_accent-secondary;
+    }
+    .color-6 {
+        background-color: $default_main;
+    }
+}
+
+.dark {
+    .color-1 {
+        background-color: $dark_back-primary
+    }
+    .color-2 {
+        background-color: $dark_back-secondary;
+    }
+    .color-3 {
+        background-color: $dark_accent-primary;
+    }
+    .color-4 {
+        background-color: $dark_accent-secondary;
+    }
+    .color-5 {
+        background-color: $dark_main;
+    }
+    .color-6 {
+        background-color: $dark_text-secondary;
+    }
+}
